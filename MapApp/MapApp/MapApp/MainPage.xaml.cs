@@ -60,14 +60,16 @@ namespace MapApp
             var locStatus = Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             var errorLogger = new AppLogger();
 
+            Navigation.PushAsync(new LoginPage(this));
+
             InitMap(errorLogger);
             //UpdateMap();
 
             //only for testing, all info should be in databse, delete later
-            user = new User("Mr. Hamster", "mrhamster@gmail.com", "ilovehamsters");
+/*            user = new User("Mr. Hamster", "mrhamster@gmail.com", "ilovehamsters");
             user.LevelPoints = 8520;
             user.AchievementNum = 10;
-            user.FoundLocationNum = 23;
+            user.FoundLocationNum = 23;*/
 
             
         }
