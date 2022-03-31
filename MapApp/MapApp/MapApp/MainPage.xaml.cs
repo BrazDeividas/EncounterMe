@@ -38,7 +38,6 @@ namespace MapApp
         DatabaseManager db;
 
         //user data
-        public User user;
         Circle userSearchCircle;
         public Position searchCircleCentre;
         public Position userPosition;
@@ -59,9 +58,6 @@ namespace MapApp
             var status = Permissions.RequestAsync<Permissions.StorageWrite>();
             var locStatus = Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             var errorLogger = new AppLogger();
-
-            Navigation.PushAsync(new LoginPage(this));
-
             InitMap(errorLogger);
             //UpdateMap();
 
@@ -209,7 +205,7 @@ namespace MapApp
             //Open UserPage
             if(PopupNavigation.Instance.PopupStack.Count > 0)
                 await Navigation.PopAllPopupAsync();
-            await Navigation.PushAsync(new UserPage(user));
+            await Navigation.PushAsync(new UserPage());
         }
 
         public async void PopupSearchEncounter(object sender, EventArgs e)

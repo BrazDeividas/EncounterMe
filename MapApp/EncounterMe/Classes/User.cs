@@ -23,6 +23,8 @@ namespace EncounterMe
         public int AchievementNum { get; set; }
         public int FoundLocationNum { get; set; }
 
+        public string Password { get; set; } = string.Empty;
+
         public User() 
         {
             Name = "empty";
@@ -36,6 +38,7 @@ namespace EncounterMe
             Email = email;
             Hashpassword = HashPassword(password);
             AccessLevel = AccessLevel.User;
+            Password= password;
         }
 
         public User(SerializationInfo info, StreamingContext context)

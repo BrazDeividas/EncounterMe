@@ -10,6 +10,21 @@ namespace EncounterMe.Functions
     public class UserManager
     {
         private string path = "users.xml";
+        private List<User> users;
+
+        public UserManager()
+        {
+            users = new List<User>();
+            users.Add(new User("Hamster", "mrhamster@gmail.com", "ilovehamsters"));
+            users[0].LevelPoints = 8520;
+            users[0].AchievementNum = 10;
+            users[0].FoundLocationNum = 23;
+
+            users.Add(new User("Camster", "mrcamster@gmail.com", "ilovehamsters"));
+            users[1].LevelPoints = 8520;
+            users[1].AchievementNum = 10;
+            users[1].FoundLocationNum = 23;
+        }
 
         public void createXML ()
         {
@@ -25,13 +40,14 @@ namespace EncounterMe.Functions
         }
         List<User> GetUsersFromMemory()
         {
-            List<User> users;
+            /*List<User> users;
             XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
             using (FileStream reader = File.OpenRead(path))
             {
                 users = (List<User>)serializer.Deserialize(reader);
             }
+            return users;*/
             return users;
         }
 
@@ -39,6 +55,13 @@ namespace EncounterMe.Functions
         {
             List<User> users = GetUsersFromMemory();
             User user = users.Where(x => x.Name == username).FirstOrDefault();
+            return user;
+        }
+
+        public User Authenticate(string username, string password)
+        {
+            List<User> users = GetUsersFromMemory();
+            User user = users.Where(x => x.Name == username && x.CompareHashPassword(password)).FirstOrDefault();
             return user;
         }
 

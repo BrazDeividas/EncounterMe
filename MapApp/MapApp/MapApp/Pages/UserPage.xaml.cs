@@ -2,13 +2,15 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using EncounterMe;
+using MapApp.Pages;
 
 namespace MapApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserPage : ContentPage
     {
-        public UserPage(User user)
+        private User user = ((App)App.Current).user;
+        public UserPage()
         {
             InitializeComponent();
             username.Text = user.Name;
@@ -26,6 +28,14 @@ namespace MapApp
         {
             //await Navigation.PushAsync(new MainPage());
             await Navigation.PopAsync();
+        }
+
+        async void LogOut(object sender, EventArgs e)
+        {
+            Application.Current.Properties.Remove("username");
+            Application.Current.Properties.Remove("password");
+            await Navigation.PopAsync();
+            Application.Current.MainPage = new LoginPage();
         }
     }
 
