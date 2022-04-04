@@ -29,12 +29,13 @@ namespace MapApp.Pages
             //User user = users.FirstOrDefault(u => u.Name == Username.Text && u.CompareHashPassword(Password.Text));
             if (user == null)
             {
-                await Navigation.PushPopupAsync(new NotificationWin(0));
+                //await Navigation.PushPopupAsync(new NotificationWin(0));
+                await DisplayAlert("Error", "Incorrect username or password", "OK");
             } else
             {
                 ((App)App.Current).user = user;
                 Application.Current.Properties["username"] = user.Name;
-                Application.Current.Properties["password"] = user.Password;
+                Application.Current.Properties["password"] = Password.Text;
                 Application.Current.MainPage = main;
             }
         }
