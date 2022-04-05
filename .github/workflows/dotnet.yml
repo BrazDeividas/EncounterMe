@@ -21,4 +21,4 @@ jobs:
       run: nuget restore MapApp/MapApp.sln
 
     - name: Build
-      run: msbuild MapApp/MapApp.Android/MapApp.Android.csproj /p:Configuration=Debug
+      run: msbuild MapApp/MapApp/MapApp.Android/MapApp.Android.csproj /p:Configuration=Debug
