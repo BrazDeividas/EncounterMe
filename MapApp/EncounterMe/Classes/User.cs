@@ -3,6 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace EncounterMe
 {
@@ -12,9 +13,8 @@ namespace EncounterMe
     }
 
     [Serializable]
-    public class User : ISerializable
+    public class User : Entity, ISerializable
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public byte[] Hashpassword { get; set; }
@@ -22,6 +22,10 @@ namespace EncounterMe
         public int LevelPoints { get; set; }
         public int AchievementNum { get; set; }
         public int FoundLocationNum { get; set; }
+
+        //needed for relationship auto-configuration
+        public List<Friend> Friends { get; set; }
+        public List<FriendRequest> FriendRequests { get; set; } 
 
         public User() 
         {
