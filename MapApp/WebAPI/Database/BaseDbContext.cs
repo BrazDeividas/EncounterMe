@@ -12,11 +12,18 @@ namespace WebAPI.Database
 
         public DbSet<Friend> Friends {  get; set; }
 
-        public DbSet<FriendRequest> Requests { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //pre-configured users here i guess
+            #region UserSeed
+            modelBuilder
+                .Entity<User>()
+                .HasData(
+                    new User { Id = 1, Name = "Hamster", Email = "mrhamster@gmail.com", Password = "ilovehamsters", LevelPoints = 8520, AchievementNum = 10, FoundLocationNum = 23},
+                    new User { Id = 2, Name = "Camster", Email = "mrcamster@gmail.com", Password = "ilovecamsters", LevelPoints = 8520, AchievementNum = 10, FoundLocationNum = 23}
+                );
+            #endregion
         }
     }
 }

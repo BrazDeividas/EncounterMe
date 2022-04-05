@@ -26,7 +26,8 @@ namespace WebAPI.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Hashpassword = table.Column<byte[]>(type: "BLOB", nullable: false),
@@ -61,39 +62,40 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Friends",
+                name: "FriendRequests",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    FriendId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId1 = table.Column<string>(type: "TEXT", nullable: false)
+                    ReceiverId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeSent = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Friends", x => x.Id);
+                    table.PrimaryKey("PK_FriendRequests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Friends_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_FriendRequests_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Requests",
+                name: "Friends",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    ReceiverId = table.Column<string>(type: "TEXT", nullable: false),
-                    TimeSent = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FriendId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Requests", x => x.Id);
+                    table.PrimaryKey("PK_Friends", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Requests_Users_UserId",
+                        name: "FK_Friends_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -106,13 +108,13 @@ namespace WebAPI.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Friends_UserId1",
-                table: "Friends",
-                column: "UserId1");
+                name: "IX_FriendRequests_UserId",
+                table: "FriendRequests",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Requests_UserId",
-                table: "Requests",
+                name: "IX_Friends_UserId",
+                table: "Friends",
                 column: "UserId");
         }
 
@@ -122,10 +124,10 @@ namespace WebAPI.Migrations
                 name: "Attribute");
 
             migrationBuilder.DropTable(
-                name: "Friends");
+                name: "FriendRequests");
 
             migrationBuilder.DropTable(
-                name: "Requests");
+                name: "Friends");
 
             migrationBuilder.DropTable(
                 name: "Locations");

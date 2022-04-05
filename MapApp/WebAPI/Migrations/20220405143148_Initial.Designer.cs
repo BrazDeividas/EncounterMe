@@ -9,7 +9,7 @@ using WebAPI.Database;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20220404183555_Initial")]
+    [Migration("20220405143148_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,8 +36,9 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("EncounterMe.Friend", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("FriendId")
                         .HasColumnType("INTEGER");
@@ -45,38 +46,33 @@ namespace WebAPI.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("EncounterMe.FriendRequest", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("ReceiverId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TimeSent")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("FriendRequests");
                 });
 
             modelBuilder.Entity("EncounterMe.Location", b =>
@@ -102,8 +98,9 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("EncounterMe.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AccessLevel")
                         .HasColumnType("INTEGER");
@@ -149,7 +146,7 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("EncounterMe.User", "User")
                         .WithMany("Friends")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
