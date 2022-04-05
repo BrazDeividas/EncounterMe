@@ -37,6 +37,11 @@ namespace MapApp
             await Navigation.PopAsync();
             Application.Current.MainPage = new LoginPage();
         }
+
+        async void openLeaderboard(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LeaderboardPage());
+        }
     }
 
 }

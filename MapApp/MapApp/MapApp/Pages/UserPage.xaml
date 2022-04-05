@@ -78,12 +78,12 @@
                     </Grid.ColumnDefinitions>
                     <Ellipse WidthRequest="80"
 						     HeightRequest="80"
-                             Grid.Row="0" Grid.Column="0"
+                             Grid.Row="1" Grid.Column="0"
                              Margin="10,0,0,10"
 							 Fill="#6cd4ff"/>
                     <Label x:Name="locationsFound"
                            Text="28"
-                           Grid.Row="0" Grid.Column="0"
+                           Grid.Row="1" Grid.Column="0"
                            Margin="10,15,0,0"
                            HorizontalOptions="Center"
 						   FontFamily="Segoe UI"
@@ -91,7 +91,7 @@
 						   TextColor="#FFFFFF"
 							   />
                     <Label Text="Locations Found"
-                           Grid.Row="0" Grid.Column="1"
+                           Grid.Row="1" Grid.Column="1"
                            HorizontalOptions="Start"
                            Margin="20,10,0,0"
 						   FontFamily="Segoe UI"
@@ -101,12 +101,12 @@
 
                     <Ellipse WidthRequest="80"
 						     HeightRequest="80"
-                             Grid.Row="1" Grid.Column="0"
+                             Grid.Row="2" Grid.Column="0"
                              Margin="10,0,0,10"
 							 Fill="#EC9F2B"/>
                     <Label x:Name="achievements"
                            Text="10"
-                           Grid.Row="1" Grid.Column="0"
+                           Grid.Row="2" Grid.Column="0"
                            Margin="10,15,0,0"
                            HorizontalOptions="Center"
 						   FontFamily="Segoe UI"
@@ -114,13 +114,26 @@
 						   TextColor="#FFFFFF"
 							   />
                     <Label Text="Achievements"
-                           Grid.Row="1" Grid.Column="1"
+                           Grid.Row="2" Grid.Column="1"
                            HorizontalOptions="Start"
                            Margin="20,10,0,0"
 						   FontFamily="Segoe UI"
 						   FontSize="36"
 						   TextColor="#000000"
 							   />
+
+                    <Button Text="Leaderboard"
+                           Grid.Row="0" Grid.Column="1"
+                           HorizontalOptions="Start"
+                           BackgroundColor="#EC9F2B"
+                           TextTransform="None"
+                           Margin="20,10,0,0"
+						   FontFamily="Segoe UI"
+						   FontSize="36"
+						   TextColor="#FFFFFF"
+                           Clicked="openLeaderboard"
+                           />
+
                 </Grid>
                 <!-- <BoxView x:Name="_bg__user"
 				Color="#ffeedd"
