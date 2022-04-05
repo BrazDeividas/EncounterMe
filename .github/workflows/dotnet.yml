@@ -18,7 +18,7 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Install dependencies
-      run: nuget restore MapApp.sln
+      run: nuget restore MapApp/MapApp.sln
 
     - name: Build
       run: msbuild MapApp/MapApp.Android /p:Configuration=Debug
