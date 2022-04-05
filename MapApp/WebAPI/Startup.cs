@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Database;
 using WebAPI.Middleware;
 
 namespace WebAPI
@@ -43,8 +45,16 @@ namespace WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
             });
         }
+        
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            var options = new DbContextOptionsBuilder<BaseDbContext>()
+                .UseSqlite(Configuration.GetConnectionString("DefaultConnection")).Options;
+
+            builder.RegisterType<BaseDbContext>()
+                .WithParameter("options", options)
+                .InstancePerLifetimeScope();
+
             builder.RegisterModule<NLogModule>();
 
 
@@ -53,8 +63,6 @@ namespace WebAPI
             builder.RegisterType<GameLogic>().As<IGame>()
                 .EnableInterfaceInterceptors().InterceptedBy(typeof(LogicInterceptor))
                 .InstancePerDependency();
-      
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

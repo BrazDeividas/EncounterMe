@@ -3,6 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace EncounterMe
 {
@@ -24,6 +25,10 @@ namespace EncounterMe
         public int FoundLocationNum { get; set; }
 
         public string Password { get; set; } = string.Empty;
+
+        //needed for relationship auto-configuration
+        public List<Friend> Friends { get; set; }
+        public List<FriendRequest> FriendRequests { get; set; } 
 
         public User() 
         {

@@ -55,8 +55,8 @@ namespace WebAPI
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
             }
-            var prog = new Program();
-            prog.FirstInit();
+            /*var prog = new Program();
+            prog.FirstInit();*/
         }
 
 
@@ -77,12 +77,12 @@ namespace WebAPI
                 })
                 .UseNLog();
 
-        private void FirstInit()
+/*        private void FirstInit()
         {
             var db = new DatabaseManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Test", new DatabaseLogger());//it works i think// I made it work ;)
             db.writeToFile(AddLocations());
 
-        }
+        }*/
 
         private List<EncounterMe.Location> AddLocations()
         {
