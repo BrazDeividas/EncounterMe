@@ -21,6 +21,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Database;
 using WebAPI.Middleware;
+using WebAPI.Repositories;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -55,8 +57,23 @@ namespace WebAPI
                 .WithParameter("options", options)
                 .InstancePerLifetimeScope();
 
-            builder.RegisterModule<NLogModule>();
+            builder.RegisterType<UserRepository>()
+                .As<IUserRepository>()
+                .InstancePerDependency();
 
+            builder.RegisterType<FriendRepository>()
+                .As<IFriendRepository>()
+                .InstancePerDependency();
+
+            builder.RegisterType<FriendRequestRepository>()
+                .As<IFriendRequestRepository>()
+                .InstancePerDependency();
+
+            builder.RegisterType<FriendService>()
+                .As<IFriendService>()
+                .InstancePerDependency();
+
+            builder.RegisterModule<NLogModule>();
 
             builder.Register(c => new LogicInterceptor());
 

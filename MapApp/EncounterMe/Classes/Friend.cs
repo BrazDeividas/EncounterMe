@@ -4,9 +4,8 @@ using System.Text;
 
 namespace EncounterMe
 {
-    public class Friend
+    public class Friend : Entity
     {
-        public string Id { get; set; }
         public int FriendId { get; set; }
 
         //needed for relationship auto-configuration

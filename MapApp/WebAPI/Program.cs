@@ -1,20 +1,10 @@
-﻿using EncounterMe;
-using EncounterMe.Classes;
-using EncounterMe.Functions;
+﻿using EncounterMe.Functions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog;
 using NLog.Web;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using System;
-using Autofac;
-using WebAPI.Middleware;
 using Autofac.Extensions.DependencyInjection;
 using System.IO;
 
