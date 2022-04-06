@@ -4,102 +4,49 @@ using System.Text;
 using System.Linq;
 using System.Xml.Serialization;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace EncounterMe.Functions
 {
-    public class UserManager
+    public interface IUserManager
     {
-        private string path = "users.xml";
-        private List<User> users;
+        Task<User?> Authenticate(Credentials credentials);
+        User? CurrentUser(string token);
+    }
+    public class UserManager: IUserManager
+    {
+        private readonly HttpClient _httpClient;
 
-        public UserManager()
+        public UserManager(HttpClient httpClient)
         {
-            users = new List<User>();
-            users.Add(new User("Hamster", "mrhamster@gmail.com", "ilovehamsters"));
-            users[0].LevelPoints = 8520;
-            users[0].AchievementNum = 10;
-            users[0].FoundLocationNum = 23;
-
-            users.Add(new User("Camster", "mrcamster@gmail.com", "ilovehamsters"));
-            users[1].LevelPoints = 8520;
-            users[1].AchievementNum = 10;
-            users[1].FoundLocationNum = 23;
+            _httpClient = httpClient;
         }
 
-        public void createXML ()
+        public async Task<User?> Authenticate(Credentials credentials)
         {
-            if (!File.Exists(path))
+            var json = JsonConvert.SerializeObject(credentials);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("api/User/authenticate", data);
+            if (response.IsSuccessStatusCode)
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-                List<User> users = new List<User>();
-                using (FileStream writer = File.Create(path))
-                {
-                    serializer.Serialize(writer, users);
-                }
+                string content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<User>(content);
             }
+            return null;
         }
-        List<User> GetUsersFromMemory()
-        {
-            /*List<User> users;
-            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
-            using (FileStream reader = File.OpenRead(path))
+        public User? CurrentUser(string token)
+        {
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var response = _httpClient.GetAsync("api/User").Result;
+            if (response.IsSuccessStatusCode)
             {
-                users = (List<User>)serializer.Deserialize(reader);
+                string content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<User>(content);
             }
-            return users;*/
-            return users;
-        }
-
-        public User FindUser (string username)
-        {
-            List<User> users = GetUsersFromMemory();
-            User user = users.Where(x => x.Name == username).FirstOrDefault();
-            return user;
-        }
-
-        public User Authenticate(string username, string password)
-        {
-            List<User> users = GetUsersFromMemory();
-            User user = users.Where(x => x.Name == username && x.CompareHashPassword(password)).FirstOrDefault();
-            return user;
-        }
-
-        public void SaveUser(User user)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-            List<User> users = GetUsersFromMemory();
-            users.Add(user);
-            using (TextWriter writer = new StreamWriter(path))
-            {
-                serializer.Serialize(writer, users);
-            }
-        }
-
-        public void printListOfUsers ()
-        {
-            List<User> users = GetUsersFromMemory();
-            List<AccessRights> accessRights = new List<AccessRights>
-            {
-                new AccessRights { AccessLevel = AccessLevel.Admin, AccessName = "Admin"},
-                new AccessRights { AccessLevel = AccessLevel.User, AccessName = "User"}
-            };
-            var query = accessRights.GroupJoin (users,
-                                                rights => rights.AccessLevel,
-                                                user => user.AccessLevel,
-                                                (rights, userList) => new
-                                                {
-                                                    Users = userList,
-                                                    AccessName = rights.AccessName
-                                                });
-            foreach (var item in query)
-            {
-                Console.WriteLine(item.AccessName);
-                foreach (var user in item.Users)
-                {
-                    Console.WriteLine("\t" + user.Name);
-                }
-            }
+            return null;
         }
     }
 }

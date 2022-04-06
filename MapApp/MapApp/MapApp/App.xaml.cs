@@ -1,7 +1,9 @@
 ﻿using EncounterMe;
 using EncounterMe.Functions;
 using MapApp.Pages;
+using Newtonsoft.Json;
 using System;
+using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,7 +18,7 @@ namespace MapApp
         public App()
         {
             InitializeComponent();
-            UserManager = new UserManager();
+            UserManager = new UserManager(new HttpClient() { BaseAddress = new Uri("http://10.0.2.2:32332") }); ;
             //MainPage = new NavigationPage(new MainPage());
 
         }
@@ -25,17 +27,20 @@ namespace MapApp
 
         protected override void OnStart()
         {
-            if (Properties.ContainsKey("username") && Properties.ContainsKey("password"))
+            using (HttpClient client = new HttpClient())
             {
-                user = UserManager.Authenticate(Properties["username"].ToString(), Properties["password"].ToString());
-            }
-            if (user == null)
-            {
-                Application.Current.MainPage = new LoginPage();
-            }
-            else
-            {
-                Application.Current.MainPage = main;
+                if (Current.Properties.ContainsKey("token"))
+                { 
+                    user = UserManager.CurrentUser(Current.Properties["token"].ToString());
+                }
+                if (user == null)
+                {
+                    Application.Current.MainPage = new LoginPage();
+                }
+                else
+                {
+                    Application.Current.MainPage = main;
+                }
             }
         }
 

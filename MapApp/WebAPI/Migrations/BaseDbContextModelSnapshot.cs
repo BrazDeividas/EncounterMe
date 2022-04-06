@@ -124,8 +124,7 @@ namespace WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<string>("Token")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -142,8 +141,7 @@ namespace WebAPI.Migrations
                             FoundLocationNum = 23,
                             Hashpassword = new byte[] { 21, 38, 44, 23, 2, 171, 15, 221, 119, 242, 49, 206, 209, 1, 142, 230, 198, 205, 247, 107, 74, 54, 221, 49, 170, 135, 107, 6, 239, 179, 213, 51 },
                             LevelPoints = 8520,
-                            Name = "Hamster",
-                            Password = "ilovehamsters"
+                            Name = "Hamster"
                         },
                         new
                         {
@@ -154,8 +152,7 @@ namespace WebAPI.Migrations
                             FoundLocationNum = 23,
                             Hashpassword = new byte[] { 21, 38, 44, 23, 2, 171, 15, 221, 119, 242, 49, 206, 209, 1, 142, 230, 198, 205, 247, 107, 74, 54, 221, 49, 170, 135, 107, 6, 239, 179, 213, 51 },
                             LevelPoints = 8520,
-                            Name = "Camster",
-                            Password = "ilovecamsters"
+                            Name = "Camster"
                         });
                 });
 
