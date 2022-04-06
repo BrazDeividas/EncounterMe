@@ -32,8 +32,7 @@ namespace MapApp
 
         async void LogOut(object sender, EventArgs e)
         {
-            Application.Current.Properties.Remove("username");
-            Application.Current.Properties.Remove("password");
+            Application.Current.Properties.Remove("token");
             await Navigation.PopAsync();
             Application.Current.MainPage = new LoginPage();
         }

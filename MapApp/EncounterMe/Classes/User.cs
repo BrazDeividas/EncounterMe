@@ -13,7 +13,7 @@ namespace EncounterMe
     }
 
     [Serializable]
-    public class User : Entity, ISerializable
+    public class User : Entity
     {
         public string Name { get; set; }
         public string Email { get; set; }
@@ -23,11 +23,11 @@ namespace EncounterMe
         public int AchievementNum { get; set; }
         public int FoundLocationNum { get; set; }
 
-        public string Password { get; set; } = string.Empty;
-
         //needed for relationship auto-configuration
         public List<Friend> Friends { get; set; }
         public List<FriendRequest> FriendRequests { get; set; } 
+
+        public string? Token { get; set; }
 
         public User() 
         {
@@ -42,16 +42,15 @@ namespace EncounterMe
             Email = email;
             Hashpassword = HashPassword(password);
             AccessLevel = AccessLevel.User;
-            Password= password;
         }
 
-        public User(SerializationInfo info, StreamingContext context)
+        /*public User(SerializationInfo info, StreamingContext context)
         {
-            Name = (string)info.GetValue("Username", typeof(string));
+            Name = (string)info.GetValue("Name", typeof(string));
             Email = (string)info.GetValue("Email", typeof(string));
             Hashpassword = (byte[])info.GetValue("Password", typeof(byte[]));
             AccessLevel = (AccessLevel)info.GetValue("Password", typeof(AccessLevel));
-        }
+        }*/
 
         private byte[] HashPassword(string password)
         {

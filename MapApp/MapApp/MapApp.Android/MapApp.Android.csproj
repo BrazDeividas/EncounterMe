@@ -108,6 +108,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
+	<AndroidResource Include="Resources\xml\network_security_config.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\layout\MapInfoWindow.axml" />
   </ItemGroup>
   <ItemGroup>
@@ -203,10 +206,12 @@
     <AndroidResource Include="Resources\drawable\icon4.png" />
     <AndroidResource Include="Resources\drawable\icon3.png" />
     <AndroidResource Include="Resources\drawable\icon2.png" />
+    <AndroidResource Include="Resources\drawable\hamster.png" />
     <Content Include="Resources\drawable\pilis.jpg" />
     <AndroidResource Include="Resources\drawable\temp.jpg" />
     <AndroidResource Include="Resources\drawable\shrink.png" />
     <AndroidResource Include="Resources\drawable\shrinklocked.png" />
+    <AndroidResource Include="Resources\drawable\_logout.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

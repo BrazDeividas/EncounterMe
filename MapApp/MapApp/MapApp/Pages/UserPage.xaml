@@ -21,15 +21,16 @@
 								 HorizontalOptions="Start"
 								 BackgroundColor="Transparent"
 								 Margin="20,10,0,0" />
-                    <Image Source="_settings.png"
+                    <!-- <Image Source="_settings.png"
                            Grid.Row="0" Grid.Column="1"
                            HorizontalOptions="End"
-						   Margin="0,10,20,0" />
-                    <ImageButton Source="icon6.png"
+						   Margin="0,10,0,0" />-->
+                    <ImageButton Source="_logout.png"
                                 Clicked="LogOut"
-                           Grid.Row="0" Grid.Column="2"
+                                BackgroundColor="Transparent"
+                           Grid.Row="0" Grid.Column="1"
                            HorizontalOptions="End"
-						   Margin="0,0,0,0" />
+						   Margin="0,0,20,0" />
                 </Grid>
                 <Grid ColumnSpacing="0">
                     <BoxView Grid.Row="0" Grid.Column="0"
