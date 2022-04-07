@@ -20,14 +20,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore MapApp
       
-    - name: Build EncouterMeTests
-      run: dotnet build MapApp/EncounterMeTests/EncounterMeTests.csproj --configuration Debug --no-restore
-      
     - name: Build WebAPI
       run: dotnet build MapApp/WebAPI/WebAPI.csproj --configuration Debug --no-restore
      
     - name: Build ConsoleApp
       run: dotnet build MapApp/ConsoleApp/ConsoleApp.csproj --configuration Debug --no-restore
       
+    - name: Build EncouterMeTests
+      run: dotnet build MapApp/EncounterMeTests/EncounterMeTests.csproj --configuration Debug --no-restore
+    
     - name: Test
       run: dotnet test MapApp/EncounterMeTests --no-build --verbosity normal
