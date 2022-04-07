@@ -26,6 +26,7 @@ jobs:
         dotnet-version: |
             2.0.x
             5.0.x
+            6.0.x
     - name: Install dependencies
       run: nuget restore MapApp/MapApp.sln
 
