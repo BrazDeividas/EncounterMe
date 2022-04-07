@@ -42,7 +42,7 @@ namespace EncounterMe.Functions
             ValidationDel ve = delegate (string x)
             {
                 // standard email verification regex
-                Regex validEmail = new Regex("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+                Regex validEmail = new Regex("^[a-zA-Z0-9.!#$%&’*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$");
                 return validEmail.IsMatch(x);
             };
 
