@@ -19,7 +19,7 @@ jobs:
         dotnet-version: 5.0.x
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore MapApp
       
     - name: Build EncouterMeTests
       run: dotnet build MapApp/EncounterMeTests/EncounterMeTests.csproj --configuration Debug --no-restore
