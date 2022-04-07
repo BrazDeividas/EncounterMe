@@ -30,4 +30,4 @@ jobs:
       run: dotnet build MapApp/ConsoleApp/ConsoleApp.csproj --configuration Debug --no-restore
       
     - name: Test
-      run: dotnet test MapApp --no-build --verbosity normal
+      run: dotnet test MapApp/EncounterMeTests --no-build --verbosity normal
