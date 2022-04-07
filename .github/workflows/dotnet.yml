@@ -8,13 +8,13 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Set default Xamarin SDK versions
       run: |
-        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.10
+        $VM_ASSETS/select-xamarin-sdk-v2.sh
     - name: Setup .NET Core SDK 5.0.x
       uses: actions/setup-dotnet@v1
       with:
