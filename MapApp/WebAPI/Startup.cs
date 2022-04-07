@@ -5,20 +5,27 @@ using Autofac.Extras.NLog;
 using Castle.DynamicProxy;
 using EncounterMe.Functions;
 using EncounterMe.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using WebAPI.Database;
 using WebAPI.Middleware;
+using WebAPI.Repositories;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -38,23 +45,64 @@ namespace WebAPI
         {
 
             services.AddControllers();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("LONGER BETTER CODE")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
             });
         }
+        
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule<NLogModule>();
+            var options = new DbContextOptionsBuilder<BaseDbContext>()
+                .UseSqlite(Configuration.GetConnectionString("DefaultConnection")).Options;
 
+            builder.RegisterType<BaseDbContext>()
+                .WithParameter("options", options)
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<UserRepository>()
+                .As<IUserRepository>()
+                .InstancePerDependency();
+
+            builder.RegisterType<FriendRepository>()
+                .As<IFriendRepository>()
+                .InstancePerDependency();
+
+            builder.RegisterType<FriendRequestRepository>()
+                .As<IFriendRequestRepository>()
+                .InstancePerDependency();
+
+            builder.RegisterType<FriendService>()
+                .As<IFriendService>()
+                .InstancePerDependency();
+
+            builder.RegisterType<UserService>()
+                .As<IUserService>()
+                .InstancePerDependency();
+
+            builder.RegisterModule<NLogModule>();
 
             builder.Register(c => new LogicInterceptor());
 
             builder.RegisterType<GameLogic>().As<IGame>()
                 .EnableInterfaceInterceptors().InterceptedBy(typeof(LogicInterceptor))
                 .InstancePerDependency();
-      
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +124,8 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseRequestResponseLogging();
 

@@ -4,79 +4,49 @@ using System.Text;
 using System.Linq;
 using System.Xml.Serialization;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace EncounterMe.Functions
 {
-    public class UserManager
+    public interface IUserManager
     {
-        private string path = "users.xml";
+        Task<User?> Authenticate(Credentials credentials);
+        User? CurrentUser(string token);
+    }
+    public class UserManager: IUserManager
+    {
+        private readonly HttpClient _httpClient;
 
-        public void createXML ()
+        public UserManager(HttpClient httpClient)
         {
-            if (!File.Exists(path))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-                List<User> users = new List<User>();
-                using (FileStream writer = File.Create(path))
-                {
-                    serializer.Serialize(writer, users);
-                }
-            }
-        }
-        List<User> GetUsersFromMemory()
-        {
-            List<User> users;
-            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-
-            using (FileStream reader = File.OpenRead(path))
-            {
-                users = (List<User>)serializer.Deserialize(reader);
-            }
-            return users;
+            _httpClient = httpClient;
         }
 
-        public User FindUser (string username)
+        public async Task<User?> Authenticate(Credentials credentials)
         {
-            List<User> users = GetUsersFromMemory();
-            User user = users.Where(x => x.Name == username).FirstOrDefault();
-            return user;
+            var json = JsonConvert.SerializeObject(credentials);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("api/User/authenticate", data);
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<User>(content);
+            }
+            return null;
         }
 
-        public void SaveUser(User user)
+        public User? CurrentUser(string token)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-            List<User> users = GetUsersFromMemory();
-            users.Add(user);
-            using (TextWriter writer = new StreamWriter(path))
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var response = _httpClient.GetAsync("api/User").Result;
+            if (response.IsSuccessStatusCode)
             {
-                serializer.Serialize(writer, users);
+                string content = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<User>(content);
             }
-        }
-
-        public void printListOfUsers ()
-        {
-            List<User> users = GetUsersFromMemory();
-            List<AccessRights> accessRights = new List<AccessRights>
-            {
-                new AccessRights { AccessLevel = AccessLevel.Admin, AccessName = "Admin"},
-                new AccessRights { AccessLevel = AccessLevel.User, AccessName = "User"}
-            };
-            var query = accessRights.GroupJoin (users,
-                                                rights => rights.AccessLevel,
-                                                user => user.AccessLevel,
-                                                (rights, userList) => new
-                                                {
-                                                    Users = userList,
-                                                    AccessName = rights.AccessName
-                                                });
-            foreach (var item in query)
-            {
-                Console.WriteLine(item.AccessName);
-                foreach (var user in item.Users)
-                {
-                    Console.WriteLine("\t" + user.Name);
-                }
-            }
+            return null;
         }
     }
 }

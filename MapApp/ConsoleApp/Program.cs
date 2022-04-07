@@ -24,7 +24,9 @@ namespace ConsoleApp
         {
 
             test_filters();
-
+            Console.WriteLine("start");
+            var a = DominykasTestErrors("labas").Result;
+            Console.WriteLine("End");
         }
 
 
@@ -102,12 +104,15 @@ namespace ConsoleApp
 
         static async Task<string> DominykasTestErrors(string message)
         {
-            var content = new FormUrlEncodedContent(new[]
+            /*var content = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("", message)
-            });
-
-            var response = await client.PostAsync("https://localhost:44355/api/error", content);
+            });*/
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            //client.DefaultRequestHeaders.Add("Content-Type:", "application/json");
+            //var content = new StringContent(JsonConvert.SerializeObject(message), Encoding.UTF8, "application/json");
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE2NDkyMzYyMTQsImV4cCI6MTY0OTg0MTAxNCwiaWF0IjoxNjQ5MjM2MjE0fQ.Y3bALf46k1tW7Sygltj2B2wDxd2WYgUxVcc5DanHNm4");
+            var response = await client.GetAsync("http://localhost:32332/api/User");
 
             var responseString = await response.Content.ReadAsStringAsync();
             Console.WriteLine("before");

@@ -38,7 +38,6 @@ namespace MapApp
         DatabaseManager db;
 
         //user data
-        public User user;
         Circle userSearchCircle;
         public Position searchCircleCentre;
         public Position userPosition;
@@ -59,15 +58,14 @@ namespace MapApp
             var status = Permissions.RequestAsync<Permissions.StorageWrite>();
             var locStatus = Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             var errorLogger = new AppLogger();
-
             InitMap(errorLogger);
             //UpdateMap();
 
             //only for testing, all info should be in databse, delete later
-            user = new User("Mr. Hamster", "mrhamster@gmail.com", "ilovehamsters");
+/*            user = new User("Mr. Hamster", "mrhamster@gmail.com", "ilovehamsters");
             user.LevelPoints = 8520;
             user.AchievementNum = 10;
-            user.FoundLocationNum = 23;
+            user.FoundLocationNum = 23;*/
 
             
         }
@@ -207,7 +205,7 @@ namespace MapApp
             //Open UserPage
             if(PopupNavigation.Instance.PopupStack.Count > 0)
                 await Navigation.PopAllPopupAsync();
-            await Navigation.PushAsync(new UserPage(user));
+            await Navigation.PushAsync(new UserPage());
         }
 
         public async void PopupSearchEncounter(object sender, EventArgs e)

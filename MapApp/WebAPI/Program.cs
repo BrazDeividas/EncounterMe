@@ -1,20 +1,10 @@
-﻿using EncounterMe;
-using EncounterMe.Classes;
-using EncounterMe.Functions;
+﻿using EncounterMe.Functions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog;
 using NLog.Web;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using System;
-using Autofac;
-using WebAPI.Middleware;
 using Autofac.Extensions.DependencyInjection;
 using System.IO;
 
@@ -55,8 +45,8 @@ namespace WebAPI
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
             }
-            var prog = new Program();
-            prog.FirstInit();
+            /*var prog = new Program();
+            prog.FirstInit();*/
         }
 
 
@@ -77,12 +67,12 @@ namespace WebAPI
                 })
                 .UseNLog();
 
-        private void FirstInit()
+/*        private void FirstInit()
         {
             var db = new DatabaseManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Test", new DatabaseLogger());//it works i think// I made it work ;)
             db.writeToFile(AddLocations());
 
-        }
+        }*/
 
         private List<EncounterMe.Location> AddLocations()
         {

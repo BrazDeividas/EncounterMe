@@ -3,6 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace EncounterMe
 {
@@ -12,9 +13,8 @@ namespace EncounterMe
     }
 
     [Serializable]
-    public class User : ISerializable
+    public class User : Entity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public byte[] Hashpassword { get; set; }
@@ -22,6 +22,12 @@ namespace EncounterMe
         public int LevelPoints { get; set; }
         public int AchievementNum { get; set; }
         public int FoundLocationNum { get; set; }
+
+        //needed for relationship auto-configuration
+        public List<Friend> Friends { get; set; }
+        public List<FriendRequest> FriendRequests { get; set; } 
+
+        public string? Token { get; set; }
 
         public User() 
         {
@@ -38,13 +44,13 @@ namespace EncounterMe
             AccessLevel = AccessLevel.User;
         }
 
-        public User(SerializationInfo info, StreamingContext context)
+        /*public User(SerializationInfo info, StreamingContext context)
         {
-            Name = (string)info.GetValue("Username", typeof(string));
+            Name = (string)info.GetValue("Name", typeof(string));
             Email = (string)info.GetValue("Email", typeof(string));
             Hashpassword = (byte[])info.GetValue("Password", typeof(byte[]));
             AccessLevel = (AccessLevel)info.GetValue("Password", typeof(AccessLevel));
-        }
+        }*/
 
         private byte[] HashPassword(string password)
         {
