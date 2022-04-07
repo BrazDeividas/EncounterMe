@@ -287,7 +287,7 @@ namespace MapApp
             //}
         }
 
-        private async Task<EncounterMe.Location> sendPostrequestAsync(LocationToFind sendLocation)
+        /*private async Task<EncounterMe.Location> sendPostrequestAsync(LocationToFind sendLocation)
         {
             var json = JsonConvert.SerializeObject(sendLocation);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -305,7 +305,7 @@ namespace MapApp
             //for debug
             //var responseString = await response.Content.ReadAsStringAsync();
             //Console.WriteLine(responseString);
-        }
+        }*/
 
         private void MainButtonClicked(object sender, EventArgs e)
         {
