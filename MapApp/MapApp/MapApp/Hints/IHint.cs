@@ -7,8 +7,8 @@ namespace MapApp.Hints
 {
     internal interface IHint
     {
-        public void show(HintPage hintPage);
+        void show(HintPage hintPage);
 
-        public void hideHint(HintPage hintPage);
+        void hideHint(HintPage hintPage);
     }
 }
